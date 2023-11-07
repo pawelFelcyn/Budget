@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget", "Budget\Budget.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget.Data", "Budget.Data\Budget.Data.csproj", "{7B0CCC4C-80A7-487A-8844-9D459B2038AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationHelper", "MigrationHelper\MigrationHelper.csproj", "{D3C199A8-0131-4189-8C9F-40D973BB8429}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{7B0CCC4C-80A7-487A-8844-9D459B2038AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B0CCC4C-80A7-487A-8844-9D459B2038AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B0CCC4C-80A7-487A-8844-9D459B2038AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C199A8-0131-4189-8C9F-40D973BB8429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C199A8-0131-4189-8C9F-40D973BB8429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C199A8-0131-4189-8C9F-40D973BB8429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C199A8-0131-4189-8C9F-40D973BB8429}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
