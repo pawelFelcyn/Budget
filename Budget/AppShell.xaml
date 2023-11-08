@@ -8,9 +8,17 @@
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="True">
 
+
+  <FlyoutItem>
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:OverviewPage}"
-        Route="MainPage" />
+      Title="Home"
+      ContentTemplate="{DataTemplate views:OverviewPage}"
+      Route="MainPage" />
+    <ShellContent
+   Title="Categories"
+   ContentTemplate="{DataTemplate views:CategoriesPage}"
+   Route="Categories" />
+  </FlyoutItem>
+    
 
 </Shell>
