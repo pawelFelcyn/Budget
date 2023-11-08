@@ -44,6 +44,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\far.ttf" />
+	  <None Remove="Resources\Fonts\fas.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ColorPicker.Maui" Version="1.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="DevExpress.Maui.Charts" Version="23.1.6" />
 		<PackageReference Include="DevExpress.Maui.CollectionView" Version="23.1.6" />

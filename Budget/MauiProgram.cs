@@ -1,8 +1,11 @@
 ﻿using Budget.Data;
 using Budget.ViewModels;
 using Budget.Views;
+using CommunityToolkit.Maui;
+using DevExpress.Maui;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace Budget
 {
@@ -17,10 +20,20 @@ namespace Budget
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                    fonts.AddFont("fas.ttf", "FA-S");
+                    fonts.AddFont("far.ttf", "FA-S");
+                })
+                .UseDevExpress()
+                .UseMauiCommunityToolkit()
+                .UseSkiaSharp();
+
+            DevExpress.Maui.Charts.Initializer.Init();
+            DevExpress.Maui.CollectionView.Initializer.Init();
+            DevExpress.Maui.Controls.Initializer.Init();
+            DevExpress.Maui.Editors.Initializer.Init();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
 
