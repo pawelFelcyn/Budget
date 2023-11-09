@@ -71,6 +71,10 @@ public sealed partial class CategoriesViewModel : ViewModel
             _logger.LogError(e, "Error occured when loading categories.");
             await Shell.Current.DisplayAlert("Error", "Something went wrong. Could not load categories.", "Ok");
         }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
@@ -161,21 +165,51 @@ public sealed partial class CategoriesViewModel : ViewModel
         CategoryNameErrors = null;
     }
 
-    //[RelayCommand]
-    //private async Task RemoveCategory(Category category)   
-    //{
-    //    if (IsBusy)
-    //    {
-    //        return;
-    //    }
+    [RelayCommand]
+    private async Task RemoveCategoryAsync(Category category)
+    {
+        if (IsBusy)
+        {
+            return;
+        }
 
-    //    try
-    //    {
+        try
+        {
+            IsBusy = true;
+            using var dbContext = _dbContextFactory();
 
-    //    }
-    //    finally
-    //    {
+            //TODO: prevent deleting category for which there are some expenses/incoms
 
-    //    }
-    //}
+            if (!await Shell.Current.DisplayAlert(null, "Are you sure you want to remove this category?", "Yes", "No"))
+            {
+                return;
+            }
+            
+
+            dbContext.Categories.Remove(category);
+            await dbContext.SaveChangesAsync();
+            RemoveFromLocalCollection(category);
+            await Shell.Current.DisplayAlert("Success", "Category deleted.", "Ok");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error occured when deleting category");
+            await Shell.Current.DisplayAlert("Error", "Something went wrong.", "Ok");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private void RemoveFromLocalCollection(Category category)
+    {
+        if (SelectedCategoryTypeEnum == CategoryType.Expense)
+        {
+            ExpensesCategories.Remove(category);
+            return;
+        }
+
+        IncomsCategories.Remove(category);
+    }
 }

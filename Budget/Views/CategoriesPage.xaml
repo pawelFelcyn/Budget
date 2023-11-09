@@ -8,7 +8,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:cp="https://trungnt2910.github.io/schemas/maui/2022/colorpicker"
              xmlns:conv="clr-namespace:Budget.Converters"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             x:Name="categoriesPage">
   <ContentPage.Resources>
     <DataTemplate x:Key="categoryTemplate">
       <Border StrokeShape="RoundRectangle 10">
@@ -17,7 +18,9 @@
           <dxc:SimpleButton FontFamily="FA-S" Text="&#xf303;" FontSize="15" BackgroundColor="Orange"
           Grid.Column="1" VerticalOptions="Fill" HorizontalOptions="Fill" CornerRadius="0"/>
           <dxc:SimpleButton FontFamily="FA-S" Text="&#xf1f8;" FontSize="15" BackgroundColor="Red"
-          Grid.Column="2" VerticalOptions="Fill" HorizontalOptions="Fill" CornerRadius="0"/>
+          Grid.Column="2" VerticalOptions="Fill" HorizontalOptions="Fill" CornerRadius="0"
+                            Command="{Binding Source={x:Reference categoriesPage}, Path=BindingContext.RemoveCategoryCommand}"
+                            CommandParameter="{Binding .}"/>
         </Grid>
       </Border>
     </DataTemplate>
