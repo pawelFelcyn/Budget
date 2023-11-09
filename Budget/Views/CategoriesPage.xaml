@@ -45,7 +45,8 @@
         <toolkit:EventToCommandBehavior EventName="StateChanged" Command="{Binding ClearNewCategoryDataCommand}"/>
       </dxc:BottomSheet.Behaviors>
       <StackLayout Padding="20" Spacing="10">
-        <dxe:TextEdit LabelText="Name" Text="{Binding NewCategoryName}"/>
+        <dxe:TextEdit LabelText="Name" Text="{Binding NewCategoryName}" ErrorText="{Binding CategoryNameErrors}"
+                      HasError="{Binding HasCategoryNameErrors}"/>
         <Grid ColumnDefinitions="auto,*">
           <Label Text="Category display color: "/>
           <Grid BackgroundColor="{Binding NewCategoryColor, Converter={conv:HexStringToColorConverter}}" VerticalOptions="FillAndExpand"

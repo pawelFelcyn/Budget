@@ -1,7 +1,13 @@
-﻿using Budget.Data.Entities;
+﻿using Budget.Data;
+using Budget.Data.Entities;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DevExpress.Data;
+using DevExpress.Xpo.Logger;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
+using Xamarin.Google.Crypto.Tink.Signature;
 
 namespace Budget.ViewModels;
 
@@ -16,47 +22,23 @@ public sealed partial class CategoriesViewModel : ViewModel
     //0 for expense, 1 for incom
     [ObservableProperty]
     private int _selectedCategoryType;
-    public ObservableCollection<Category> ExpensesCategories { get; } = new()
-    {
-        new Category()
-        {
-            Name = "Test expense category 1",
-            Color = "asdsad"
-        },
-        new Category()
-        {
-            Name = "Test expense category 2",
-            Color = "asdsad"
-        },
-        new Category()
-        {
-            Name = "Test expense category 3",
-            Color = "asdsad"
-        },
-    };
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasCategoryNameErrors))]
+    private string _categoryNameErrors;
+    private readonly DbContextFactory _dbContextFactory;
+    private readonly ILogger<CategoriesViewModel> _logger;
 
-    public ObservableCollection<Category> IncomsCategories { get; } = new()
-    {
-        new Category()
-        {
-            Name = "Test incom category 1",
-            Color = "asdsad"
-        },
-        new Category()
-        {
-            Name = "Test incom category 2",
-            Color = "asdsad"
-        },
-        new Category()
-        {
-            Name = "Test incom category 3",
-            Color = "asdsad"
-        },
-    };
+    public CategoryType SelectedCategoryTypeEnum => (CategoryType)SelectedCategoryType;
+    public bool HasCategoryNameErrors => CategoryNameErrors is not null;
+    public ObservableCollection<Category> ExpensesCategories { get; } = new();
 
-    public CategoriesViewModel()
+    public ObservableCollection<Category> IncomsCategories { get; } = new();
+
+    public CategoriesViewModel(DbContextFactory dbContextFactory, ILogger<CategoriesViewModel> logger)
     {
         Title = "Categories";
+        _dbContextFactory = dbContextFactory;
+        _logger = logger;
     }
 
     [RelayCommand]
@@ -66,10 +48,77 @@ public sealed partial class CategoriesViewModel : ViewModel
     }
 
     [RelayCommand]
-    private Task SaveCategoryAsync()
+    private async Task SaveCategoryAsync()
     {
-        IsAddCategorySheetExpanded = false;
-        return Task.CompletedTask;
+        if (IsBusy)
+        {
+            return;
+        }
+
+        try
+        {
+            IsBusy = true;
+            using var dbContext = _dbContextFactory();
+            if (!await Validate(dbContext))
+            {
+                return;
+            }
+            var category = new Category
+            {
+                Name = NewCategoryName,
+                Color = NewCategoryColor,
+                Type = SelectedCategoryTypeEnum,
+            };
+            await dbContext.Categories.AddAsync(category);
+            await dbContext.SaveChangesAsync();
+            AddToLocalCollection(category);
+            await Shell.Current.DisplayAlert("Success", "Category created.", "Ok");
+            IsAddCategorySheetExpanded = false;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error occured when creating category");
+            await Shell.Current.DisplayAlert("Error", "Something went wrong.", "Ok");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private void AddToLocalCollection(Category category)
+    {
+        if (SelectedCategoryTypeEnum == CategoryType.Expense)
+        {
+            ExpensesCategories.Add(category);
+            return;
+        }
+
+        IncomsCategories.Add(category);
+    }
+
+    private async Task<bool> Validate(BudgetDbContext dbContext)
+    {
+        if (string.IsNullOrEmpty(NewCategoryName))
+        {
+            CategoryNameErrors = "Category name must not be empty.";
+            return false;
+        }
+
+        if (NewCategoryName.Length > 50)
+        {
+            CategoryNameErrors = "Max Length of category name is 50 characters.";
+            return false;
+        }
+
+        if (await dbContext.Categories.AnyAsync(c => c.Name == NewCategoryName && c.Type == SelectedCategoryTypeEnum))
+        {
+            CategoryNameErrors = "Category with this name already exists.";
+            return false;
+        }
+
+        CategoryNameErrors = null;
+        return true;
     }
 
     [RelayCommand]
@@ -77,5 +126,6 @@ public sealed partial class CategoriesViewModel : ViewModel
     {
         NewCategoryName = null;
         NewCategoryColor = "#000000";
+        CategoryNameErrors = null;
     }
 }
