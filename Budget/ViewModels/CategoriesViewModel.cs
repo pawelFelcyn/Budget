@@ -39,6 +39,38 @@ public sealed partial class CategoriesViewModel : ViewModel
         Title = "Categories";
         _dbContextFactory = dbContextFactory;
         _logger = logger;
+        ReloadCategoriesAsync();
+    }
+
+    [RelayCommand]
+    private async Task ReloadCategoriesAsync()
+    {
+        if (IsBusy)
+        {
+            return;
+        }
+
+        try
+        {
+            IsBusy = true;
+            ExpensesCategories.Clear();
+            IncomsCategories.Clear();
+            using var dbContext = _dbContextFactory();
+            await foreach (var category in dbContext.Categories.AsAsyncEnumerable())
+            {
+                if (category.Type == CategoryType.Expense)
+                {
+                    ExpensesCategories.Add(category);
+                    continue;
+                }
+                IncomsCategories.Add(category);
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error occured when loading categories.");
+            await Shell.Current.DisplayAlert("Error", "Something went wrong. Could not load categories.", "Ok");
+        }
     }
 
     [RelayCommand]
@@ -128,4 +160,22 @@ public sealed partial class CategoriesViewModel : ViewModel
         NewCategoryColor = "#000000";
         CategoryNameErrors = null;
     }
+
+    //[RelayCommand]
+    //private async Task RemoveCategory(Category category)   
+    //{
+    //    if (IsBusy)
+    //    {
+    //        return;
+    //    }
+
+    //    try
+    //    {
+
+    //    }
+    //    finally
+    //    {
+
+    //    }
+    //}
 }
