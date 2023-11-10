@@ -15,6 +15,12 @@
       ContentTemplate="{DataTemplate views:OverviewPage}"
       Route="MainPage" />
     <ShellContent
+    Icon="{FontImageSource FontFamily='FA-S', Glyph='&#xf03a;'}"
+    Title="History"
+    ContentTemplate="{DataTemplate views:HistoryPage}"
+    Route="History" />
+    <ShellContent
+      Icon="{FontImageSource FontFamily='FA-S', Glyph='&#xf02b;'}"
    Title="Categories"
    ContentTemplate="{DataTemplate views:CategoriesPage}"
    Route="Categories" />

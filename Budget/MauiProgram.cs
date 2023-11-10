@@ -21,7 +21,7 @@ namespace Budget
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("fas.ttf", "FA-S");
-                    fonts.AddFont("far.ttf", "FA-S");
+                    fonts.AddFont("far.ttf", "FA-R");
                 })
                 .UseDevExpress()
                 .UseMauiCommunityToolkit()
@@ -41,6 +41,8 @@ namespace Budget
             builder.Services
                 .AddDbContext<BudgetDbContext>(options => options.UseSqlite($"Data Source = {dbPath}"), contextLifetime: ServiceLifetime.Transient)
                 .AddSingleton<DbContextFactory>(sp => () => sp.GetRequiredService<BudgetDbContext>())
+                .AddSingleton<HistoryPage>()
+                .AddSingleton<HistoryViewModel>()
                 .AddSingleton<CategoriesPage>()
                 .AddSingleton<CategoriesViewModel>();
 

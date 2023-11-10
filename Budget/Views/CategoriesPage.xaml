@@ -38,9 +38,7 @@
                                ItemTemplate="{StaticResource categoryTemplate}"/>
       </dxc:TabViewItem>
     </dxc:TabView>
-    <dxc:SimpleButton VerticalOptions="End" HorizontalOptions="End" WidthRequest="70"
-                      HeightRequest="70" CornerRadius="35" Margin="10"
-                      FontFamily="FA-S" Text="&#x2b;" FontSize="20"
+    <dxc:SimpleButton Style="{StaticResource floatingActionButtonStyle}"
                       Command="{Binding ExpandAddCategorySheetCommand}"/>
     <dxc:BottomSheet CornerRadius="30" 
                      State="{Binding IsAddCategorySheetExpanded, Mode=TwoWay, Converter={toolkit:BoolToObjectConverter TrueObject={x:Static dxc:BottomSheetState.HalfExpanded}, FalseObject={x:Static dxc:BottomSheetState.Hidden}}}">
