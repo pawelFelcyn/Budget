@@ -44,7 +44,9 @@ namespace Budget
                 .AddSingleton<HistoryPage>()
                 .AddSingleton<HistoryViewModel>()
                 .AddSingleton<CategoriesPage>()
-                .AddSingleton<CategoriesViewModel>();
+                .AddSingleton<CategoriesViewModel>()
+                .AddSingleton<CreateNewTansactionViewModel>()
+                .AddSingleton<CreateNewTransactionPage>();
 
             return builder.Build();
         }
