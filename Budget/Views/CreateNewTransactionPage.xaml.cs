@@ -8,5 +8,6 @@ public partial class CreateNewTransactionPage : ContentPage
 	{
 		BindingContext = viewModel;
 		InitializeComponent();
+		viewModel.ValidateUI = () => DataForm.Validate();
 	}
 }

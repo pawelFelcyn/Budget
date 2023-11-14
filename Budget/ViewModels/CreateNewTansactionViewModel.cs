@@ -4,6 +4,7 @@ using Budget.Dtos;
 using Bumptech.Glide.Load.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DevExpress.Maui.DataForm;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
@@ -19,10 +20,13 @@ public sealed partial class CreateNewTansactionViewModel : ViewModel
     private readonly List<Category> _allCategories = new();
 
     public ObservableCollection<Category> Categories { get; } = new();
+    public DateTime MinDate { get; } = new DateTime(2000, 1, 1);
+    public DateTime MaxDate { get; } = DateTime.Now;
     public List<CategoryType> AllTypes { get; } = new()
     {
         CategoryType.Expense, CategoryType.Income
     };
+    public Action ValidateUI { get; set; }
 
     public CreateNewTansactionViewModel(DbContextFactory dbContextFactory)
     {
@@ -51,6 +55,44 @@ public sealed partial class CreateNewTansactionViewModel : ViewModel
         finally
         {
             IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task SaveAsync()
+    {
+        if (IsBusy) 
+        {
+            return;
+        }
+
+        try
+        {
+            Validate();
+            ValidateUI?.Invoke();
+            if (Model.HasErrors)
+            {
+                return;
+            }
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    private void Validate()
+    {
+        Model.ClearErrors();
+        ValidateCaterogyId();
+    }
+
+    private void ValidateCaterogyId()
+    {
+        if (!Categories.Any(c => c.Id == Model.CategoryId))
+        {
+            Model.SetError(nameof(CreateTransactionDto.CategoryId), "You must specify category.");
         }
     }
 }

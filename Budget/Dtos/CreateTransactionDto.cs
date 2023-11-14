@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DevExpress.Maui.DataForm;
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Budget.Dtos;
 
 
-public sealed partial class CreateTransactionDto : ObservableObject
+public sealed partial class CreateTransactionDto : Dto
 {
     [ObservableProperty]
     private string _name;
