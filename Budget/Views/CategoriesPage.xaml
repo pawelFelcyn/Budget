@@ -6,7 +6,7 @@
              xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:cp="https://trungnt2910.github.io/schemas/maui/2022/colorpicker"
+             xmlns:cp="clr-namespace:ColorPicker.Maui;assembly=ColorPicker.Maui"
              xmlns:conv="clr-namespace:Budget.Converters"
              Title="{Binding Title}"
              x:Name="categoriesPage">
