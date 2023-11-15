@@ -4,10 +4,9 @@ namespace Budget.Views;
 
 public partial class CreateNewTransactionPage : ContentPage
 {
-	public CreateNewTransactionPage(CreateNewTansactionViewModel viewModel)
+    public CreateNewTransactionPage(CreateNewTansactionViewModel viewModel)
 	{
 		BindingContext = viewModel;
 		InitializeComponent();
-		viewModel.ValidateUI = () => DataForm.Validate();
-	}
+    }
 }

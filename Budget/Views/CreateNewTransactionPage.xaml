@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dxdf="clr-namespace:DevExpress.Maui.DataForm;assembly=DevExpress.Maui.Editors"
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:dxc="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Budget.Views.CreateNewTransactionPage"
              Title="{Binding Title}">
   <Grid RowDefinitions="*,auto">
-    <StackLayout>
-      <dxdf:DataFormView x:Name="DataForm" DataObject="{Binding Model}" IsAutoGenerationEnabled="False" CommitMode="PropertyChanged"
-                         ValidationMode="Manually">
-        <dxdf:DataFormTextItem InplaceLabelText="Name" FieldName="Name"
-                       MaxCharacterCount="50" IsInplaceLabelFloating="True"
-                       IsLabelVisible="False"/>
-        <dxdf:DataFormMultilineItem InplaceLabelText="Description" FieldName="Description"
-                   MaxCharacterCount="200" IsInplaceLabelFloating="True"
-                   IsLabelVisible="False" />
-        <dxdf:DataFormNumericItem InplaceLabelText="Amount" FieldName="Amount"
-                   MaxDecimalDigitCount="2" IsInplaceLabelFloating="True"
-                   IsLabelVisible="False" MinValue="0.01" MaxValue="999999"
-                   AllowLooping="False" />
-        <dxdf:DataFormDateItem InplaceLabelText="Date" FieldName="TransactionDate"
-                      IsInplaceLabelFloating="True" IsLabelVisible="False"
-                      MinDate="{Binding MinDate}" MaxDate="{Binding MaxDate}"/>
-        <dxdf:DataFormComboBoxItem IsInplaceLabelFloating="True"
-                           ValueMember="Id" DisplayMember="Name"
-                           ItemsSource="{Binding Categories}"
-                           InplaceLabelText="Category"
-                           IsLabelVisible="False"
-                           PickerShowMode="Popup"
-                           FieldName="CategoryId"/>
-      </dxdf:DataFormView>
-      <dxe:ComboBoxEdit SelectedItem="{Binding Type}" PickerShowMode="Popup"
-                    ItemsSource="{Binding AllTypes}"
-                    LabelText="Type" IsLabelFloating="True"
-                    Margin="10,0,10,0"/>
-    </StackLayout>
-    <dxc:SimpleButton Text="Save" Command="{Binding SaveCommand}" Margin="10" Grid.Row="1"/>
+    <ScrollView>
+      <StackLayout Padding="10" Spacing="10">
+        <dxe:TextEdit Text="{Binding Model.Name}" LabelText="Name" IsLabelFloating="True" MaxCharacterCount="50"/>
+        <dxe:MultilineEdit Text="{Binding Model.Description}" LabelText="Description" IsLabelFloating="True" MaxCharacterCount="200"/>
+        <dxe:NumericEdit LabelText="Amount" MaxDecimalDigitCount="2" IsLabelFloating="True" MinValue="0.01" MaxValue="9999999"
+                         AllowLooping="False" Value="{Binding Model.Amount}"/>
+        <dxe:DateEdit LabelText="Date" MinDate="{Binding MinDate}" MaxDate="{Binding MaxDate}" Date="{Binding Model.TransactionDate}"
+                      IsLabelFloating="True"/>
+        <dxe:ComboBoxEdit LabelText="Category" IsLabelFloating="True"
+              ValueMember="Id" DisplayMember="Name"
+              ItemsSource="{Binding Categories}"
+              PickerShowMode="Popup"
+              SelectedValue="{Binding Model.CategoryId}"
+              HasError="{Binding HasCategoryIdError}"
+              ErrorText="{Binding CategoryIdError}"/>
+        <dxe:ComboBoxEdit SelectedItem="{Binding Type}" PickerShowMode="Popup"
+                ItemsSource="{Binding AllTypes}"
+                LabelText="Type" IsLabelFloating="True"/>
+      </StackLayout>
+    </ScrollView>
+    <dxc:SimpleButton x:Name="submitButton" Text="Save" Command="{Binding SaveCommand}" Margin="10" Grid.Row="1"/>
   </Grid>
 </ContentPage>

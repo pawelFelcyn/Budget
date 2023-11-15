@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Budget.Dtos;
 
 
-public sealed partial class CreateTransactionDto : Dto
+public sealed partial class CreateTransactionDto : ObservableObject
 {
     [ObservableProperty]
     private string _name;
@@ -17,5 +17,5 @@ public sealed partial class CreateTransactionDto : Dto
     [ObservableProperty]
     private DateTime _transactionDate = DateTime.Now;
     [ObservableProperty]
-    private Guid _categoryId;
+    private Guid? _categoryId;
 }
