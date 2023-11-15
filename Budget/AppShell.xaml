@@ -11,9 +11,10 @@
 
   <FlyoutItem>
     <ShellContent
-      Title="Home"
+      Icon="{FontImageSource FontFamily='FA-S', Glyph='&#xf015;'}"
+      Title="Overview"
       ContentTemplate="{DataTemplate views:OverviewPage}"
-      Route="MainPage" />
+      Route="Overview" />
     <ShellContent
     Icon="{FontImageSource FontFamily='FA-S', Glyph='&#xf03a;'}"
     Title="History"

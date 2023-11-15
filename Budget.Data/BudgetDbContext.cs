@@ -40,6 +40,14 @@ public class BudgetDbContext : DbContext
             e.HasOne(t => t.Category)
             .WithMany(c => c.Transactions)
             .OnDelete(DeleteBehavior.Restrict);
+
+            e.Property(t => t.Amount)
+             .HasColumnType("decimal(10,2)");
         });
     }
+
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.UseSqlite("Data source = teset.db");
+    //}
 }
