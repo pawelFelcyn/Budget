@@ -5,14 +5,50 @@
              x:Class="Budget.Views.OverviewPage"
              Title="{Binding Title}">
   <dxch:PieChartView>
+    <dxch:PieChartView.Hint>
+      <dxch:PieHint Enabled="True">
+        <dxch:PieHint.Style>
+          <dxch:PieHintStyle BackgroundColor="#424651"/>
+        </dxch:PieHint.Style>
+      </dxch:PieHint>
+    </dxch:PieChartView.Hint>
     <dxch:PieChartView.Series>
       <dxch:DonutSeries>
+        <dxch:DonutSeries.Label>
+          <dxch:PieSeriesLabel Position="TwoColumns" TextPattern="{}{VP}%" Indent="20">
+            <dxch:PieSeriesLabel.Style>
+              <dxch:PieSeriesLabelStyle ConnectorThickness="1">
+                <dxch:PieSeriesLabelStyle.TextStyle>
+                  <dxch:TextStyle Color="Black" Size="20"/>
+                </dxch:PieSeriesLabelStyle.TextStyle>
+              </dxch:PieSeriesLabelStyle>
+            </dxch:PieSeriesLabel.Style>
+          </dxch:PieSeriesLabel>
+        </dxch:DonutSeries.Label>
         <dxch:DonutSeries.Data>
           <dxch:PieSeriesDataAdapter DataSource="{Binding CategorySumChartData}"
                                      LabelDataMember="CategoryName"
                                      ValueDataMember="TotalAmount"/>
         </dxch:DonutSeries.Data>
+        <dxch:DonutSeries.HintOptions>
+          <dxch:PieSeriesHintOptions />
+        </dxch:DonutSeries.HintOptions>
       </dxch:DonutSeries>
     </dxch:PieChartView.Series>
+    <dxch:PieChartView.Legend>
+      <dxch:Legend Orientation="TopToBottom"
+                   VerticalPosition="Bottom"
+                   >
+
+        <dxch:Legend.Style>
+          <dxch:LegendStyle MarkerSize="18"
+                            TextIndent="6" ItemsVerticalIndent="12">
+            <dxch:LegendStyle.TextStyle>
+              <dxch:TextStyle Size="15"/>
+            </dxch:LegendStyle.TextStyle>
+          </dxch:LegendStyle>
+        </dxch:Legend.Style>
+      </dxch:Legend>
+    </dxch:PieChartView.Legend>
   </dxch:PieChartView>
 </ContentPage>
